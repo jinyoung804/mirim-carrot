@@ -3,43 +3,200 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>미림당근</title>
 
+    <title>미림당근 | 교내 무료 나눔</title>
+
+    <!-- CSS 연결 -->
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
+      href="{{ url_for('static', filename='css/style.css') }}"
     />
+
+    <!-- 아이콘 라이브러리 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
   </head>
+
   <body>
-    <header>
-      <h1>🥕 미림당근</h1>
-      <p>우리 학교 무료 나눔 장터</p>
-    </header>
+    <div class="container">
+      <!-- =========================
+             HEADER
+        ========================= -->
 
-    <main>
-      <h2>나눔 물품 목록</h2>
+      <header class="header">
+        <div class="header-inner">
+          <!-- 로고 -->
+          <a href="{{ url_for('home') }}" class="logo">
+            <img
+              src="{{ url_for('static', filename='images/logo.png') }}"
+              alt="미림당근"
+            />
+          </a>
 
-      <div class="item-list">
-        {% for item in items %}
+          <!-- 네비게이션 -->
+          <nav class="nav">
+            <a href="{{ url_for('home') }}">나눔 둘러보기</a>
+            <a href="/mypage">나의 나눔</a>
+            <a href="/notice">공지 사항</a>
+          </nav>
 
-        <div class="item-card">
-          <h3>{{ item.title }}</h3>
+          <!-- 사용자 메뉴 -->
+          <div class="user-menu">
+            {% if session.get("user_id") %}
 
-          <p>{{ item.description }}</p>
+            <!-- 로그인한 상태 -->
+            <div class="user-info">
+              <span class="user-nickname">
+                {{ session.get("nickname") }}님
+              </span>
 
-          <p>카테고리: {{ item.category_name }}</p>
+              <form action="{{ url_for('logout') }}" method="POST">
+                <button type="submit" class="logout-button">로그아웃</button>
+              </form>
+            </div>
 
-          <p>등록자: {{ item.nickname }}</p>
+            {% else %}
 
-          <p>상태: {{ item.status }}</p>
+            <!-- 로그인하지 않은 상태 -->
+            <a href="{{ url_for('login') }}">로그인</a>
+            <a href="{{ url_for('signup') }}">회원가입</a>
+
+            {% endif %}
+          </div>
         </div>
+      </header>
 
-        {% else %}
+      <!-- =========================
+             MAIN
+        ========================= -->
 
-        <p>아직 등록된 나눔 물품이 없습니다.</p>
+      <main class="main">
+        <!-- 메인 배너 -->
+        <section class="banner">
+          <img
+            src="{{ url_for('static', filename='images/main-banner.png') }}"
+            alt="함께 쓰면, 더 좋은 미림당근"
+          />
+        </section>
 
-        {% endfor %}
-      </div>
-    </main>
+        <!-- 카테고리 -->
+        <section class="category-section">
+          <div class="category-list">
+            <a
+              href="/?category=all"
+              class="category-item active"
+              data-category="all"
+            >
+              <i data-lucide="grid-2x2"></i>
+              <span>전체</span>
+            </a>
+
+            <a
+              href="/?category=book"
+              class="category-item"
+              data-category="book"
+            >
+              <i data-lucide="book-open"></i>
+              <span>도서</span>
+            </a>
+
+            <a
+              href="/?category=electronics"
+              class="category-item"
+              data-category="electronics"
+            >
+              <i data-lucide="smartphone"></i>
+              <span>전자기기</span>
+            </a>
+
+            <a
+              href="/?category=stationery"
+              class="category-item"
+              data-category="stationery"
+            >
+              <i data-lucide="pencil"></i>
+              <span>학용품</span>
+            </a>
+
+            <a
+              href="/?category=living"
+              class="category-item"
+              data-category="living"
+            >
+              <i data-lucide="coffee"></i>
+              <span>생활용품</span>
+            </a>
+
+            <a
+              href="/?category=clothes"
+              class="category-item"
+              data-category="clothes"
+            >
+              <i data-lucide="shirt"></i>
+              <span>의류/잡화</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- =========================
+                 PRODUCT
+            ========================= -->
+
+        <section class="product-section">
+          <h2 class="section-title">최근 등록된 나눔 물품</h2>
+
+          <div class="product-grid">
+            {% for item in items %}
+
+            <article class="product-card">
+              <div class="product-image"></div>
+
+              <div class="product-info">
+                <h3 class="product-title">{{ item.title }}</h3>
+
+                <p class="product-category">{{ item.category_name }}</p>
+
+                <span class="product-status"> {{ item.status }} </span>
+              </div>
+            </article>
+
+            {% else %}
+
+            <p class="empty-message">아직 등록된 나눔 물품이 없습니다.</p>
+
+            {% endfor %}
+          </div>
+        </section>
+      </main>
+
+      <!-- =========================
+             FLOATING BUTTON
+        ========================= -->
+
+      <a href="/register" class="floating-button" aria-label="나눔 등록하기">
+        <i data-lucide="plus"></i>
+      </a>
+    </div>
+
+    <!-- 아이콘 활성화 -->
+    <script>
+      // 아이콘 생성
+      lucide.createIcons();
+
+      // 현재 URL에서 선택된 카테고리 가져오기
+      const params = new URLSearchParams(window.location.search);
+      const selectedCategory = params.get("category") || "all";
+
+      // 모든 카테고리 가져오기
+      const categoryItems = document.querySelectorAll(".category-item");
+
+      // 선택된 카테고리에 active 클래스 추가
+      categoryItems.forEach((item) => {
+        if (item.dataset.category === selectedCategory) {
+          item.classList.add("active");
+        } else {
+          item.classList.remove("active");
+        }
+      });
+    </script>
   </body>
 </html>

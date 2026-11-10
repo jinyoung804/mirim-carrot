@@ -1,0 +1,486 @@
+/* ==================================
+   1. 기본 설정
+================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Pretendard", Arial, sans-serif;
+  background-color: #fffcf9;
+  color: #222;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #fffcf9;
+}
+
+/* ==================================
+   2. HEADER
+================================== */
+
+.header {
+  width: 100%;
+  height: 64px;
+  background-color: #ffc49a;
+}
+
+.header-inner {
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+
+  margin: 0 auto;
+  padding: 0 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 로고 */
+
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo img {
+  width: 105px;
+  height: auto;
+  display: block;
+}
+
+/* 네비게이션 */
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 75px;
+}
+
+.nav a {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  transition: color 0.2s;
+}
+
+.nav a:hover {
+  color: #ff7845;
+}
+
+/* ==================================
+   3. 사용자 메뉴
+================================== */
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.user-menu > a {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.user-menu > a:hover {
+  color: #ff7845;
+}
+
+/* 로그인한 사용자 정보 */
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* 닉네임 */
+
+.user-nickname {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  white-space: nowrap;
+}
+
+/* 로그아웃 폼 */
+
+.user-info form {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+/* 로그아웃 버튼 */
+
+.logout-button {
+  appearance: none;
+
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+
+  padding: 0;
+  margin: 0;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+
+  color: #444;
+
+  cursor: pointer;
+  white-space: nowrap;
+
+  transition: color 0.2s;
+}
+
+.logout-button:hover {
+  color: #ff7845;
+}
+
+.logout-button:focus-visible {
+  outline: 2px solid #ff7845;
+  outline-offset: 4px;
+}
+
+/* ==================================
+   4. MAIN
+================================== */
+
+.main {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+  padding: 65px 65px 100px;
+}
+
+/* ==================================
+   5. BANNER
+================================== */
+
+.banner {
+  width: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ==================================
+   6. CATEGORY
+================================== */
+
+.category-section {
+  margin-top: 75px;
+}
+
+.category-list {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+
+  padding: 18px 10px;
+
+  background-color: #fff;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.12);
+}
+
+/* 카테고리 기본 색상 */
+.category-item {
+  color: #222;
+  transition:
+    color 0.2s,
+    transform 0.2s;
+}
+
+/* 마우스를 올렸을 때 */
+.category-item:hover {
+  color: #ff7845;
+  transform: translateY(-4px);
+}
+
+/* 선택된 카테고리 */
+.category-item.active {
+  color: #ff7845;
+}
+
+/* 선택된 아이콘 */
+.category-item.active svg {
+  stroke: #ff7845;
+}
+
+/* 선택된 글씨 */
+.category-item.active span {
+  color: #ff7845;
+  font-weight: 700;
+}
+
+/* ==================================
+   7. PRODUCT
+================================== */
+
+.product-section {
+  margin-top: 110px;
+}
+
+.section-title {
+  margin-bottom: 35px;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* 물품 목록 */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  column-gap: 45px;
+  row-gap: 65px;
+}
+
+/* 물품 카드 */
+
+.product-card {
+  width: 100%;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.product-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  background-color: #fff;
+  border-radius: 4px;
+
+  transition: box-shadow 0.2s;
+}
+
+.product-card:hover .product-image {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* 물품 정보 */
+
+.product-info {
+  padding-top: 12px;
+}
+
+.product-title {
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.product-category {
+  margin-bottom: 8px;
+
+  font-size: 12px;
+  color: #888;
+}
+
+.product-status {
+  display: inline-block;
+
+  padding: 5px 10px;
+
+  background-color: #fff0e4;
+  border-radius: 4px;
+
+  font-size: 12px;
+  font-weight: 600;
+  color: #f08055;
+}
+
+/* 등록된 물품이 없을 때 */
+
+.empty-message {
+  grid-column: 1 / -1;
+
+  padding: 50px 0;
+
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+}
+
+/* ==================================
+   8. FLOATING BUTTON
+================================== */
+
+.floating-button {
+  position: fixed;
+
+  right: 45px;
+  bottom: 45px;
+
+  width: 60px;
+  height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #ffc49a;
+  border-radius: 8px;
+
+  z-index: 100;
+
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
+}
+
+.floating-button svg {
+  width: 32px;
+  height: 32px;
+  stroke-width: 1.5;
+}
+
+.floating-button:hover {
+  background-color: #ffae77;
+  transform: translateY(-3px);
+}
+
+/* ==================================
+   9. 반응형 - 태블릿
+================================== */
+
+@media (max-width: 900px) {
+  .header-inner {
+    padding: 0 20px;
+  }
+
+  .nav {
+    gap: 25px;
+  }
+
+  .main {
+    padding: 40px 25px 80px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+}
+
+/* ==================================
+   10. 반응형 - 모바일
+================================== */
+
+@media (max-width: 600px) {
+  .header {
+    height: auto;
+    min-height: 60px;
+  }
+
+  .header-inner {
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .nav a,
+  .user-menu > a {
+    font-size: 12px;
+  }
+
+  .user-info {
+    gap: 12px;
+  }
+
+  .user-nickname,
+  .logout-button {
+    font-size: 12px;
+  }
+
+  .main {
+    padding: 30px 15px 70px;
+  }
+
+  .banner {
+    border-radius: 12px;
+  }
+
+  .category-section {
+    margin-top: 40px;
+  }
+
+  .category-list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px 10px;
+  }
+
+  .category-item svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .product-section {
+    margin-top: 65px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .floating-button {
+    right: 20px;
+    bottom: 20px;
+
+    width: 50px;
+    height: 50px;
+  }
+}

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>회원가입 | 미림당근</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/auth.css') }}"
+    />
+  </head>
+
+  <body>
+    <main class="auth-container">
+      <div class="auth-box signup-box">
+        <!-- 회원가입 이미지 -->
+        <div class="auth-logo">
+          <img
+            src="{{ url_for('static', filename='images/signup_text.png') }}"
+            alt="회원가입"
+          />
+        </div>
+
+        <!-- 오류 메시지 -->
+        {% if error %}
+        <p class="error-message">{{ error }}</p>
+        {% endif %}
+
+        <!-- 회원가입 폼 -->
+        <form action="{{ url_for('signup') }}" method="POST" class="auth-form">
+          <!-- 닉네임 -->
+          <div class="input-group">
+            <input
+              type="text"
+              name="nickname"
+              placeholder="닉네임"
+              maxlength="30"
+              required
+            />
+          </div>
+
+          <!-- 학교 이메일 -->
+          <div class="input-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="학교 이메일"
+              autocomplete="email"
+              required
+            />
+
+            <p class="input-guide">
+              * 학교 이메일(@e-mirim.hs.kr)로 가입해 주세요.
+            </p>
+          </div>
+
+          <!-- 비밀번호 -->
+          <div class="input-group">
+            <input
+              type="password"
+              name="password"
+              placeholder="비밀번호 (8자 이상)"
+              minlength="8"
+              autocomplete="new-password"
+              required
+            />
+          </div>
+
+          <!-- 비밀번호 확인 -->
+          <div class="input-group">
+            <input
+              type="password"
+              name="password_confirm"
+              placeholder="비밀번호 확인"
+              minlength="8"
+              autocomplete="new-password"
+              required
+            />
+          </div>
+
+          <button type="submit" class="auth-button">회원가입</button>
+        </form>
+
+        <p class="auth-link">
+          이미 계정이 있으신가요?
+          <a href="{{ url_for('login') }}">로그인</a>
+        </p>
+
+        <a href="{{ url_for('home') }}" class="home-link">
+          메인으로 돌아가기
+        </a>
+      </div>
+    </main>
+  </body>
+</html>

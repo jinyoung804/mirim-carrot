@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>로그인 | 미림당근</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/auth.css') }}"
+    />
+  </head>
+
+  <body>
+    <main class="auth-container">
+      <div class="auth-box">
+        <!-- 로그인 이미지 -->
+        <div class="auth-logo">
+          <img
+            src="{{ url_for('static', filename='images/login_text.png') }}"
+            alt="로그인"
+          />
+        </div>
+
+        <!-- 오류 메시지 -->
+        {% if error %}
+        <p class="error-message">{{ error }}</p>
+        {% endif %}
+
+        <!-- 로그인 폼 -->
+        <form action="{{ url_for('login') }}" method="POST" class="auth-form">
+          <div class="input-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="학교 이메일"
+              autocomplete="username"
+              required
+            />
+          </div>
+
+          <div class="input-group">
+            <input
+              type="password"
+              name="password"
+              placeholder="비밀번호"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+
+          <button type="submit" class="auth-button">로그인</button>
+        </form>
+
+        <p class="auth-link">
+          아직 회원이 아니신가요?
+          <a href="{{ url_for('signup') }}">회원가입</a>
+        </p>
+
+        <a href="{{ url_for('home') }}" class="home-link">
+          메인으로 돌아가기
+        </a>
+      </div>
+    </main>
+  </body>
+</html>
