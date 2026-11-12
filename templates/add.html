@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>나눔 등록 | 미림당근</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/add.css') }}"
+    />
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+
+  <body>
+    <main class="add-container">
+      <!-- 뒤로가기 -->
+      <div class="back-area">
+        <a href="{{ url_for('home') }}" class="back-button">
+          <i data-lucide="arrow-left"></i>
+          <span>돌아가기</span>
+        </a>
+      </div>
+
+      <!-- 페이지 제목 -->
+      <div class="add-header">
+        <h1>
+          나눔 등록
+          <span class="title-deco">✦</span>
+        </h1>
+
+        <p>
+          내게는 필요 없지만, 누군가에게는 유용할 수 있어요!<br />
+          나눌 물품의 정보를 입력해 주세요.
+        </p>
+      </div>
+
+      <!-- 오류 메시지 -->
+      {% if error %}
+      <div class="error-message">{{ error }}</div>
+      {% endif %}
+
+      <!-- 등록 폼 -->
+      <form action="{{ url_for('add') }}" method="POST" class="add-form">
+        <!-- 왼쪽 : 사진 영역 -->
+        <div class="image-section">
+          <div class="image-upload-box">
+            <i data-lucide="image" class="image-icon"></i>
+
+            <p>사진을 추가해 주세요.</p>
+            <span>(최대 5장)</span>
+
+            <div class="image-plus">
+              <i data-lucide="plus"></i>
+            </div>
+          </div>
+
+          <!-- 사진 미리보기 -->
+          <div class="image-preview-list">
+            <div class="preview-box">
+              <i data-lucide="image"></i>
+            </div>
+
+            <div class="preview-box">
+              <i data-lucide="image"></i>
+            </div>
+
+            <div class="preview-box">
+              <i data-lucide="image"></i>
+            </div>
+          </div>
+
+          <p class="image-guide">사진 등록 기능은 추후 추가될 예정입니다.</p>
+        </div>
+
+        <!-- 오른쪽 : 입력 영역 -->
+        <div class="form-section">
+          <!-- 제목 -->
+          <div class="form-group">
+            <label for="title"> 제목 <span class="required">*</span> </label>
+
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="예) 교재 나눔합니다!"
+              maxlength="100"
+              value="{{ form_data.title if form_data else '' }}"
+              required
+            />
+          </div>
+
+          <!-- 카테고리 -->
+          <div class="form-group">
+            <label for="category_id">
+              카테고리 <span class="required">*</span>
+            </label>
+
+            <div class="select-wrapper">
+              <select id="category_id" name="category_id" required>
+                <option value="" disabled selected>카테고리 선택</option>
+
+                {% for category in categories %}
+                <option value="{{ category.category_id }}">
+                  {{ category.category_name }}
+                </option>
+                {% endfor %}
+              </select>
+
+              <i data-lucide="chevron-down"></i>
+            </div>
+          </div>
+
+          <!-- 설명 -->
+          <div class="form-group">
+            <label for="description">
+              설명 <span class="required">*</span>
+            </label>
+
+            <textarea
+              id="description"
+              name="description"
+              placeholder="물품의 상태, 특징 등을 적어주세요."
+              maxlength="500"
+              required
+            >
+{{ form_data.description if form_data else '' }}</textarea
+            >
+
+            <div class="text-count">
+              <span id="current-count">0</span> / 500
+            </div>
+          </div>
+        </div>
+        <!-- form-section 끝 -->
+
+        <!-- 등록 버튼 -->
+        <div class="submit-area">
+          <button type="submit" class="submit-button">등록하기</button>
+        </div>
+      </form>
+    </main>
+
+    <script>
+      // 아이콘 생성
+      lucide.createIcons();
+
+      // 설명 글자 수 표시
+      const description = document.getElementById("description");
+      const currentCount = document.getElementById("current-count");
+
+      function updateCount() {
+        currentCount.textContent = description.value.length;
+      }
+
+      description.addEventListener("input", updateCount);
+      updateCount();
+    </script>
+  </body>
+</html>

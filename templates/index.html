@@ -2,26 +2,42 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>미림당근 | 교내 무료 나눔</title>
 
-    <!-- CSS 연결 -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
     />
 
-    <!-- 아이콘 라이브러리 -->
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      /* 선택된 카테고리 */
+      .category-item.active {
+        color: #ff7845;
+      }
+
+      .category-item.active svg {
+        stroke: #ff7845;
+      }
+
+      .category-item.active span {
+        color: #ff7845;
+        font-weight: 700;
+      }
+
+      .category-item:hover {
+        color: #ff7845;
+      }
+    </style>
   </head>
 
   <body>
     <div class="container">
-      <!-- =========================
-             HEADER
-        ========================= -->
-
+      <!-- HEADER -->
       <header class="header">
         <div class="header-inner">
           <!-- 로고 -->
@@ -34,16 +50,17 @@
 
           <!-- 네비게이션 -->
           <nav class="nav">
-            <a href="{{ url_for('home') }}">나눔 둘러보기</a>
-            <a href="/mypage">나의 나눔</a>
-            <a href="/notice">공지 사항</a>
+            <a href="{{ url_for('home') }}"> 나눔 둘러보기 </a>
+
+            <a href="/mypage"> 나의 나눔 </a>
+
+            <a href="/notice"> 공지 사항 </a>
           </nav>
 
           <!-- 사용자 메뉴 -->
           <div class="user-menu">
             {% if session.get("user_id") %}
 
-            <!-- 로그인한 상태 -->
             <div class="user-info">
               <span class="user-nickname">
                 {{ session.get("nickname") }}님
@@ -56,21 +73,18 @@
 
             {% else %}
 
-            <!-- 로그인하지 않은 상태 -->
-            <a href="{{ url_for('login') }}">로그인</a>
-            <a href="{{ url_for('signup') }}">회원가입</a>
+            <a href="{{ url_for('login') }}"> 로그인 </a>
+
+            <a href="{{ url_for('signup') }}"> 회원가입 </a>
 
             {% endif %}
           </div>
         </div>
       </header>
 
-      <!-- =========================
-             MAIN
-        ========================= -->
-
+      <!-- MAIN -->
       <main class="main">
-        <!-- 메인 배너 -->
+        <!-- 배너 -->
         <section class="banner">
           <img
             src="{{ url_for('static', filename='images/main-banner.png') }}"
@@ -78,13 +92,12 @@
           />
         </section>
 
-        <!-- 카테고리 -->
+        <!-- CATEGORY -->
         <section class="category-section">
           <div class="category-list">
             <a
               href="/?category=all"
-              class="category-item active"
-              data-category="all"
+              class="category-item {% if selected_category == 'all' %}active{% endif %}"
             >
               <i data-lucide="grid-2x2"></i>
               <span>전체</span>
@@ -92,8 +105,7 @@
 
             <a
               href="/?category=book"
-              class="category-item"
-              data-category="book"
+              class="category-item {% if selected_category == 'book' %}active{% endif %}"
             >
               <i data-lucide="book-open"></i>
               <span>도서</span>
@@ -101,8 +113,7 @@
 
             <a
               href="/?category=electronics"
-              class="category-item"
-              data-category="electronics"
+              class="category-item {% if selected_category == 'electronics' %}active{% endif %}"
             >
               <i data-lucide="smartphone"></i>
               <span>전자기기</span>
@@ -110,8 +121,7 @@
 
             <a
               href="/?category=stationery"
-              class="category-item"
-              data-category="stationery"
+              class="category-item {% if selected_category == 'stationery' %}active{% endif %}"
             >
               <i data-lucide="pencil"></i>
               <span>학용품</span>
@@ -119,8 +129,7 @@
 
             <a
               href="/?category=living"
-              class="category-item"
-              data-category="living"
+              class="category-item {% if selected_category == 'living' %}active{% endif %}"
             >
               <i data-lucide="coffee"></i>
               <span>생활용품</span>
@@ -128,8 +137,7 @@
 
             <a
               href="/?category=clothes"
-              class="category-item"
-              data-category="clothes"
+              class="category-item {% if selected_category == 'clothes' %}active{% endif %}"
             >
               <i data-lucide="shirt"></i>
               <span>의류/잡화</span>
@@ -137,10 +145,7 @@
           </div>
         </section>
 
-        <!-- =========================
-                 PRODUCT
-            ========================= -->
-
+        <!-- PRODUCT -->
         <section class="product-section">
           <h2 class="section-title">최근 등록된 나눔 물품</h2>
 
@@ -148,6 +153,7 @@
             {% for item in items %}
 
             <article class="product-card">
+              <!-- 사진 업로드 기능은 추후 추가 -->
               <div class="product-image"></div>
 
               <div class="product-info">
@@ -168,35 +174,18 @@
         </section>
       </main>
 
-      <!-- =========================
-             FLOATING BUTTON
-        ========================= -->
-
-      <a href="/register" class="floating-button" aria-label="나눔 등록하기">
+      <!-- FLOATING BUTTON -->
+      <a
+        href="{{ url_for('add') }}"
+        class="floating-button"
+        aria-label="나눔 등록하기"
+      >
         <i data-lucide="plus"></i>
       </a>
     </div>
 
-    <!-- 아이콘 활성화 -->
     <script>
-      // 아이콘 생성
       lucide.createIcons();
-
-      // 현재 URL에서 선택된 카테고리 가져오기
-      const params = new URLSearchParams(window.location.search);
-      const selectedCategory = params.get("category") || "all";
-
-      // 모든 카테고리 가져오기
-      const categoryItems = document.querySelectorAll(".category-item");
-
-      // 선택된 카테고리에 active 클래스 추가
-      categoryItems.forEach((item) => {
-        if (item.dataset.category === selectedCategory) {
-          item.classList.add("active");
-        } else {
-          item.classList.remove("active");
-        }
-      });
     </script>
   </body>
 </html>
