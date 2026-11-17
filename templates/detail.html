@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{{ item.title }} | 미림당근</title>
+
+    <!-- 기존 메인 페이지 CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+
+    <!-- 상세 페이지 전용 CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/detail.css') }}"
+    />
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- 기존 메인 페이지와 동일한 헤더 -->
+      {% include 'header.html' %}
+
+      <!-- MAIN -->
+      <main class="detail-container">
+        <!-- 뒤로가기 -->
+        <div class="back-area">
+          <a href="{{ url_for('home') }}" class="back-button">
+            <i data-lucide="arrow-left"></i>
+            <span>목록으로 돌아가기</span>
+          </a>
+        </div>
+
+        <!-- 물품 상세 영역 -->
+        <div class="detail-content">
+          <!-- 왼쪽 : 사진 영역 -->
+          <div class="detail-image-section">
+            <!-- 대표 사진 -->
+            <div class="main-image">
+              {% if images %}
+
+              <img
+                id="main-product-image"
+                src="{{ url_for('static', filename=images[0].image_path) }}"
+                alt="{{ item.title }}"
+              />
+
+              {% else %}
+
+              <i data-lucide="image"></i>
+
+              {% endif %}
+            </div>
+
+            <!-- 추가 사진 -->
+            {% if images %}
+
+            <div class="thumbnail-list">
+              {% for image in images %}
+
+              <button
+                type="button"
+                class="thumbnail {% if loop.first %}active{% endif %}"
+                onclick="changeImage(this)"
+              >
+                <img
+                  src="{{ url_for('static', filename=image.image_path) }}"
+                  alt="물품 사진 {{ loop.index }}"
+                />
+              </button>
+
+              {% endfor %}
+            </div>
+
+            {% endif %}
+          </div>
+
+          <!-- 오른쪽 : 물품 정보 -->
+          <div class="detail-info-section">
+            <!-- 카테고리 -->
+            <p class="detail-category">{{ item.category_name }}</p>
+
+            <!-- 제목 -->
+            <h1 class="detail-title">{{ item.title }}</h1>
+
+            <!-- 등록자 -->
+            <div class="seller-info">
+              <div class="seller-icon">
+                <i data-lucide="user-round"></i>
+              </div>
+
+              <div>
+                <p class="seller-label">나눔 등록자</p>
+                <p class="seller-name">{{ item.nickname }}</p>
+              </div>
+            </div>
+
+            <!-- 등록 날짜 -->
+            <div class="detail-date">
+              <i data-lucide="calendar-days"></i>
+
+              <span> 등록일 : {{ item.created_at.strftime('%Y.%m.%d') }} </span>
+            </div>
+
+            <!-- 나눔 상태 -->
+            <div class="detail-status-area">
+              {% if item.status == "나눔중" %}
+
+              <span class="detail-status available"> 나눔중 </span>
+
+              {% else %}
+
+              <span class="detail-status completed"> 나눔완료 </span>
+
+              {% endif %}
+            </div>
+
+            <!-- 구분선 -->
+            <hr class="detail-divider" />
+
+            <!-- 물품 설명 -->
+            <div class="description-section">
+              <h2>물품 설명</h2>
+
+              <p class="detail-description">{{ item.description }}</p>
+            </div>
+
+            <!-- 신청 버튼 -->
+            <div class="detail-button-area">
+              {% if session.get("user_id") == item.user_id %}
+
+              <!-- 내가 등록한 물품 -->
+              <button class="apply-button disabled" disabled>
+                내가 등록한 물품입니다
+              </button>
+
+              {% elif item.status == "나눔완료" %}
+
+              <!-- 나눔 완료 -->
+              <button class="apply-button disabled" disabled>
+                나눔이 완료된 물품입니다
+              </button>
+
+              {% elif not session.get("user_id") %}
+
+              <!-- 로그인하지 않은 경우 -->
+              <a href="{{ url_for('login') }}" class="apply-button">
+                로그인 후 나눔 신청하기
+              </a>
+
+              {% else %}
+
+              <!-- 나눔 신청 -->
+              <button class="apply-button" disabled>
+                나눔 신청하기 (준비 중)
+              </button>
+
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // 아이콘 생성
+      lucide.createIcons();
+
+      // 작은 사진을 클릭하면 대표 사진 변경
+      function changeImage(button) {
+        const image = button.querySelector("img");
+        const mainImage = document.getElementById("main-product-image");
+
+        mainImage.src = image.src;
+
+        // 기존 선택 표시 제거
+        const thumbnails = document.querySelectorAll(".thumbnail");
+
+        for (let i = 0; i < thumbnails.length; i++) {
+          thumbnails[i].classList.remove("active");
+        }
+
+        // 선택한 사진 표시
+        button.classList.add("active");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,340 @@
+/* =========================================
+   물품 상세 페이지
+========================================= */
+
+/* 상세 페이지 전체 */
+.detail-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 45px 20px 100px;
+}
+
+/* =========================================
+   뒤로가기
+========================================= */
+
+.back-area {
+  margin-bottom: 35px;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 14px;
+  font-weight: 500;
+  color: #777;
+  text-decoration: none;
+}
+
+.back-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.back-button:hover {
+  color: #ff7845;
+}
+
+/* =========================================
+   물품 상세 영역
+========================================= */
+
+.detail-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 65px;
+  align-items: start;
+}
+
+/* =========================================
+   왼쪽 사진 영역
+========================================= */
+
+.detail-image-section {
+  min-width: 0;
+}
+
+/* 대표 사진 */
+.main-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #f5f5f5;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.main-image svg {
+  width: 60px;
+  height: 60px;
+  color: #ccc;
+}
+
+/* 작은 사진 목록 */
+.thumbnail-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+/* 작은 사진 박스 */
+.thumbnail {
+  width: 85px;
+  height: 85px;
+
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+
+  background-color: #f5f5f5;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 선택된 사진 */
+.thumbnail.active {
+  border-color: #ff7845;
+}
+
+.thumbnail:hover {
+  border-color: #ffb08e;
+}
+
+/* =========================================
+   오른쪽 물품 정보
+========================================= */
+
+.detail-info-section {
+  min-width: 0;
+  padding-top: 10px;
+}
+
+/* 카테고리 */
+.detail-category {
+  margin: 0 0 12px;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff7845;
+}
+
+/* 물품 제목 */
+.detail-title {
+  margin: 0 0 30px;
+
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #222;
+}
+
+/* =========================================
+   등록자 정보
+========================================= */
+
+.seller-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.seller-icon {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background-color: #fff1e9;
+  color: #ff7845;
+}
+
+.seller-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.seller-label {
+  margin: 0 0 4px;
+  font-size: 12px;
+  color: #999;
+}
+
+.seller-name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* =========================================
+   등록 날짜
+========================================= */
+
+.detail-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 20px;
+
+  font-size: 13px;
+  color: #888;
+}
+
+.detail-date svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* =========================================
+   나눔 상태
+========================================= */
+
+.detail-status-area {
+  margin-bottom: 25px;
+}
+
+.detail-status {
+  display: inline-block;
+  padding: 8px 15px;
+
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* 나눔중 */
+.detail-status.available {
+  color: #ff7845;
+  background-color: #fff1e9;
+}
+
+/* 나눔완료 */
+.detail-status.completed {
+  color: #888;
+  background-color: #eee;
+}
+
+/* =========================================
+   구분선
+========================================= */
+
+.detail-divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 25px 0;
+}
+
+/* =========================================
+   물품 설명
+========================================= */
+
+.description-section h2 {
+  margin: 0 0 15px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+}
+
+.detail-description {
+  min-height: 130px;
+
+  margin: 0;
+
+  font-size: 15px;
+  line-height: 1.9;
+  color: #555;
+
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================
+   나눔 신청 버튼
+========================================= */
+
+.detail-button-area {
+  margin-top: 35px;
+}
+
+.apply-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 55px;
+
+  border: none;
+  border-radius: 10px;
+
+  background-color: #ff7845;
+  color: #fff;
+
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+
+  cursor: pointer;
+}
+
+.apply-button:hover {
+  background-color: #f36b37;
+}
+
+/* 비활성화 버튼 */
+.apply-button.disabled {
+  background-color: #ddd;
+  color: #888;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   반응형
+========================================= */
+
+@media (max-width: 768px) {
+  .detail-container {
+    padding: 25px 20px 60px;
+  }
+
+  .detail-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .detail-title {
+    font-size: 24px;
+  }
+
+  .thumbnail {
+    width: 65px;
+    height: 65px;
+  }
+}

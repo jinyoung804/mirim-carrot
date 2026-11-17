@@ -152,9 +152,21 @@
           <div class="product-grid">
             {% for item in items %}
 
-            <article class="product-card">
-              <!-- 사진 업로드 기능은 추후 추가 -->
-              <div class="product-image"></div>
+            <a
+              href="{{ url_for('item_detail', item_id=item.item_id) }}"
+              class="product-card"
+            >
+              <!-- 물품 사진 -->
+              <div class="product-image">
+                {% if item.image_path %}
+                <img
+                  src="{{ url_for('static', filename=item.image_path) }}"
+                  alt="{{ item.title }}"
+                />
+                {% else %}
+                <i data-lucide="image"></i>
+                {% endif %}
+              </div>
 
               <div class="product-info">
                 <h3 class="product-title">{{ item.title }}</h3>
@@ -163,7 +175,7 @@
 
                 <span class="product-status"> {{ item.status }} </span>
               </div>
-            </article>
+            </a>
 
             {% else %}
 

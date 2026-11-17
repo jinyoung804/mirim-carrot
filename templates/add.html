@@ -43,10 +43,16 @@
       {% endif %}
 
       <!-- 등록 폼 -->
-      <form action="{{ url_for('add') }}" method="POST" class="add-form">
+      <form
+        action="{{ url_for('add') }}"
+        method="POST"
+        enctype="multipart/form-data"
+        class="add-form"
+      >
         <!-- 왼쪽 : 사진 영역 -->
         <div class="image-section">
-          <div class="image-upload-box">
+          <!-- 사진 선택 -->
+          <label for="images" class="image-upload-box">
             <i data-lucide="image" class="image-icon"></i>
 
             <p>사진을 추가해 주세요.</p>
@@ -55,10 +61,20 @@
             <div class="image-plus">
               <i data-lucide="plus"></i>
             </div>
-          </div>
+          </label>
+
+          <!-- 실제 파일 선택 -->
+          <input
+            type="file"
+            id="images"
+            name="images"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+            hidden
+          />
 
           <!-- 사진 미리보기 -->
-          <div class="image-preview-list">
+          <div class="image-preview-list" id="image-preview-list">
             <div class="preview-box">
               <i data-lucide="image"></i>
             </div>
@@ -72,7 +88,9 @@
             </div>
           </div>
 
-          <p class="image-guide">사진 등록 기능은 추후 추가될 예정입니다.</p>
+          <p class="image-guide">
+            JPG, PNG, WEBP 사진을 최대 5장까지 등록할 수 있습니다.
+          </p>
         </div>
 
         <!-- 오른쪽 : 입력 영역 -->
@@ -157,6 +175,86 @@
 
       description.addEventListener("input", updateCount);
       updateCount();
+
+      // 사진 업로드
+      const images = document.getElementById("images");
+      const previewList = document.getElementById("image-preview-list");
+
+      // 선택한 사진을 저장할 배열
+      let selectedImages = [];
+
+      images.addEventListener("change", function () {
+        const files = images.files;
+
+        // 사진을 한 장씩 추가
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+
+          // 최대 5장 검사
+          if (selectedImages.length >= 5) {
+            alert("사진은 최대 5장까지 등록할 수 있습니다.");
+            break;
+          }
+
+          // 파일 형식 검사
+          if (
+            file.type !== "image/jpeg" &&
+            file.type !== "image/png" &&
+            file.type !== "image/webp"
+          ) {
+            alert("JPG, PNG, WEBP 파일만 등록할 수 있습니다.");
+            continue;
+          }
+
+          // 사진 배열에 추가
+          selectedImages.push(file);
+        }
+
+        // 선택한 사진을 input에 다시 저장
+        const dataTransfer = new DataTransfer();
+
+        for (let i = 0; i < selectedImages.length; i++) {
+          dataTransfer.items.add(selectedImages[i]);
+        }
+
+        images.files = dataTransfer.files;
+
+        // 기존 미리보기 삭제
+        previewList.innerHTML = "";
+
+        // 사진 미리보기 표시
+        for (let i = 0; i < selectedImages.length; i++) {
+          const file = selectedImages[i];
+
+          const imageUrl = URL.createObjectURL(file);
+
+          const previewBox = document.createElement("div");
+          previewBox.className = "preview-box";
+
+          const img = document.createElement("img");
+          img.src = imageUrl;
+          img.alt = "선택한 사진";
+
+          previewBox.appendChild(img);
+          previewList.appendChild(previewBox);
+
+          // 이미지 로딩 후 임시 주소 해제
+          img.onload = function () {
+            URL.revokeObjectURL(imageUrl);
+          };
+        }
+
+        // 사진이 없을 때 기본 아이콘 표시
+        if (selectedImages.length === 0) {
+          previewList.innerHTML = `
+        <div class="preview-box"><i data-lucide="image"></i></div>
+        <div class="preview-box"><i data-lucide="image"></i></div>
+        <div class="preview-box"><i data-lucide="image"></i></div>
+      `;
+
+          lucide.createIcons();
+        }
+      });
     </script>
   </body>
 </html>
