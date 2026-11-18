@@ -210,8 +210,8 @@ button {
   grid-template-columns: repeat(6, 1fr);
 
   padding: 18px 10px;
-
-  background-color: #fff;
+  border-radius: 15px;
+  background-color: #ffc49a;
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.12);
 }
 
@@ -225,7 +225,7 @@ button {
 
 /* 마우스를 올렸을 때 */
 .category-item:hover {
-  color: #ff7845;
+  color: black;
   transform: translateY(-4px);
 }
 
