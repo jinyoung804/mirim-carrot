@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>마이페이지 | 미림당근</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/mypage.css') }}"
+    />
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+
+  <body>
+    <main class="mypage-container">
+      <!-- 뒤로가기 -->
+      <div class="back-area">
+        <a href="{{ url_for('home') }}" class="back-button">
+          <i data-lucide="arrow-left"></i>
+          <span>돌아가기</span>
+        </a>
+      </div>
+
+      <!-- 페이지 제목 -->
+      <div class="mypage-heading">
+        <h1>마이페이지 🥕</h1>
+        <p>{{ session.get('nickname') }}님의 나눔 활동을 확인해 보세요!</p>
+      </div>
+
+      <!-- 탭 -->
+      <div class="mypage-tabs">
+        <a
+          href="{{ url_for('mypage', tab='registered') }}"
+          class="mypage-tab {% if tab == 'registered' %}active{% endif %}"
+        >
+          내가 등록한 나눔
+          <span>{{ registered_items|length }}</span>
+        </a>
+
+        <a
+          href="{{ url_for('mypage', tab='applied') }}"
+          class="mypage-tab {% if tab == 'applied' %}active{% endif %}"
+        >
+          내가 신청한 나눔
+          <span>{{ applied_items|length }}</span>
+        </a>
+      </div>
+
+      <!-- 알림 메시지 -->
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <div class="flash-message">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+
+      <!-- 내가 등록한 나눔 -->
+      {% if tab == 'registered' %}
+
+      <section class="mypage-section">
+        <div class="mypage-section-heading">
+          <h2>내가 등록한 나눔</h2>
+          <span>총 {{ registered_items|length }}개</span>
+        </div>
+
+        <div class="mypage-list">
+          {% for item in registered_items %}
+
+          <div class="mypage-card">
+            <!-- 상품 이미지 -->
+            <a
+              href="{{ url_for('item_detail', item_id=item.item_id) }}"
+              class="mypage-image"
+            >
+              {% if item.image_path %}
+              <img
+                src="{{ url_for('static', filename=item.image_path) }}"
+                alt="{{ item.title }}"
+              />
+              {% else %}
+              <i data-lucide="image"></i>
+              {% endif %}
+            </a>
+
+            <!-- 상품 정보 -->
+            <div class="mypage-item-info">
+              <p class="mypage-category">{{ item.category_name }}</p>
+
+              <a
+                href="{{ url_for('item_detail', item_id=item.item_id) }}"
+                class="mypage-item-title"
+              >
+                {{ item.title }}
+              </a>
+
+              <p class="mypage-date">
+                등록일 {{ item.created_at.strftime('%Y.%m.%d') }}
+              </p>
+
+              <div class="mypage-status-row">
+                <span
+                  class="mypage-badge {% if item.status == '나눔중' %}available{% else %}completed{% endif %}"
+                >
+                  {{ item.status }}
+                </span>
+
+                <span class="mypage-applicant-count">
+                  신청자 {{ item.applicant_count }}명
+                </span>
+              </div>
+
+              <!-- 상품 수정·삭제 -->
+              {% if item.status == '나눔중' %}
+
+              <div class="mypage-manage-buttons">
+                <a
+                  href="{{ url_for('edit_item', item_id=item.item_id) }}"
+                  class="mypage-edit-button"
+                >
+                  수정하기
+                </a>
+
+                <form
+                  action="{{ url_for('delete_item', item_id=item.item_id) }}"
+                  method="POST"
+                  onsubmit="return confirm('정말 이 상품을 삭제하시겠습니까?');"
+                >
+                  <button type="submit" class="mypage-delete-button">
+                    삭제하기
+                  </button>
+                </form>
+              </div>
+
+              {% endif %}
+            </div>
+
+            <!-- 상세 보기 -->
+            <a
+              href="{{ url_for('item_detail', item_id=item.item_id) }}"
+              class="mypage-card-arrow"
+              aria-label="상품 상세 보기"
+            >
+              <i data-lucide="chevron-right"></i>
+            </a>
+          </div>
+
+          {% else %}
+
+          <div class="mypage-empty">
+            <i data-lucide="package"></i>
+            <p>아직 등록한 나눔이 없습니다.</p>
+
+            <a href="{{ url_for('add') }}"> 나눔 등록하기 </a>
+          </div>
+
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- 내가 신청한 나눔 -->
+      {% elif tab == 'applied' %}
+
+      <section class="mypage-section">
+        <div class="mypage-section-heading">
+          <h2>내가 신청한 나눔</h2>
+          <span>총 {{ applied_items|length }}개</span>
+        </div>
+
+        <div class="mypage-list">
+          {% for item in applied_items %}
+
+          <div class="mypage-card">
+            <!-- 상품 이미지 -->
+            <a
+              href="{{ url_for('item_detail', item_id=item.item_id) }}"
+              class="mypage-image"
+            >
+              {% if item.image_path %}
+              <img
+                src="{{ url_for('static', filename=item.image_path) }}"
+                alt="{{ item.title }}"
+              />
+              {% else %}
+              <i data-lucide="image"></i>
+              {% endif %}
+            </a>
+
+            <!-- 상품 정보 -->
+            <div class="mypage-item-info">
+              <p class="mypage-category">{{ item.category_name }}</p>
+
+              <a
+                href="{{ url_for('item_detail', item_id=item.item_id) }}"
+                class="mypage-item-title"
+              >
+                {{ item.title }}
+              </a>
+
+              <p class="mypage-date">
+                신청일 {{ item.applied_at.strftime('%Y.%m.%d') }}
+              </p>
+
+              <div class="mypage-status-row">
+                {% if item.application_status == '대기' %}
+                <span class="mypage-badge waiting"> 신청 대기 </span>
+
+                {% elif item.application_status == '수락' %}
+                <span class="mypage-badge accepted"> 신청 수락 </span>
+
+                {% elif item.application_status == '거절' %}
+                <span class="mypage-badge rejected"> 신청 거절 </span>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- 신청 상태별 버튼 -->
+            <div class="mypage-card-actions">
+              {% if item.application_status == '대기' %}
+
+              <form
+                action="{{ url_for('cancel_application', application_id=item.application_id) }}"
+                method="POST"
+                onsubmit="return confirm('나눔 신청을 취소하시겠습니까?');"
+              >
+                <button type="submit" class="mypage-cancel-button">
+                  신청 취소
+                </button>
+              </form>
+
+              {% elif item.application_status == '수락' %}
+
+              <a
+                href="{{ url_for('item_detail', item_id=item.item_id) }}"
+                class="mypage-view-button"
+              >
+                나눔 안내 확인하기
+              </a>
+
+              {% else %}
+
+              <a
+                href="{{ url_for('item_detail', item_id=item.item_id) }}"
+                class="mypage-view-button"
+              >
+                상세 보기
+              </a>
+
+              {% endif %}
+            </div>
+          </div>
+
+          {% else %}
+
+          <div class="mypage-empty">
+            <i data-lucide="heart"></i>
+            <p>아직 신청한 나눔이 없습니다.</p>
+
+            <a href="{{ url_for('home') }}"> 나눔 둘러보기 </a>
+          </div>
+
+          {% endfor %}
+        </div>
+      </section>
+
+      {% endif %}
+    </main>
+
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

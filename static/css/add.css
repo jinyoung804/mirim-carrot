@@ -521,3 +521,11 @@ select {
   font-size: 12px;
   color: #999;
 }
+
+/* 나눔 안내 메모 설명 */
+.memo-help {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #999;
+}

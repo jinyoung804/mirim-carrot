@@ -283,6 +283,10 @@
   margin-top: 35px;
 }
 
+.detail-button-area form {
+  width: 100%;
+}
+
 .apply-button {
   display: flex;
   align-items: center;
@@ -309,14 +313,209 @@
 }
 
 /* 비활성화 버튼 */
-.apply-button.disabled {
+.apply-button.disabled,
+.apply-button.disabled:hover {
   background-color: #ddd;
   color: #888;
   cursor: not-allowed;
 }
 
 /* =========================================
-   반응형
+   나눔 신청자 목록
+========================================= */
+
+.applicants-section {
+  width: 100%;
+  margin-top: 60px;
+  padding-top: 35px;
+  border-top: 1px solid #eee5dd;
+}
+
+/* 신청자 목록 제목 */
+.applicants-title {
+  margin: 0 0 25px;
+
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+}
+
+/* 신청자 목록 */
+.applicants-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* =========================================
+   신청자 카드
+========================================= */
+
+.applicant-card {
+  width: 100%;
+  padding: 22px 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  background-color: #fff;
+  border: 1px solid #f0e5dc;
+  border-radius: 14px;
+
+  transition: border-color 0.2s;
+}
+
+.applicant-card:hover {
+  border-color: #ffc49a;
+}
+
+/* =========================================
+   신청자 정보
+========================================= */
+
+.applicant-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 0;
+}
+
+/* 신청자 프로필 아이콘 */
+.applicant-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #fff0e4;
+  border-radius: 50%;
+  color: #ff7845;
+}
+
+.applicant-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* 신청자 이름 */
+.applicant-name {
+  margin: 0 0 6px;
+
+  font-size: 15px;
+  font-weight: 700;
+  color: #222;
+}
+
+/* 신청 날짜 */
+.applicant-date {
+  margin: 0;
+
+  font-size: 12px;
+  color: #999;
+}
+
+/* =========================================
+   신청 상태 및 관리 버튼
+========================================= */
+
+.applicant-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.applicant-actions form {
+  margin: 0;
+}
+
+/* 신청 상태 */
+.applicant-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-right: 15px;
+  padding: 6px 12px;
+
+  background-color: #fff0e4;
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 600;
+  color: #f08055;
+  white-space: nowrap;
+}
+
+/* =========================================
+   수락 버튼
+========================================= */
+
+.accept-button {
+  padding: 10px 20px;
+
+  background-color: #ff7845;
+  border: none;
+  border-radius: 8px;
+
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.accept-button:hover {
+  background-color: #eb6734;
+}
+
+/* =========================================
+   거절 버튼
+========================================= */
+
+.reject-button {
+  padding: 10px 20px;
+
+  background-color: #f3f3f3;
+  border: none;
+  border-radius: 8px;
+
+  color: #666;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.reject-button:hover {
+  background-color: #e8e8e8;
+}
+
+/* =========================================
+   신청자가 없을 때
+========================================= */
+
+.no-applicants {
+  padding: 50px 20px;
+
+  background-color: #fff;
+  border: 1px solid #f0e5dc;
+  border-radius: 14px;
+
+  text-align: center;
+  font-size: 14px;
+  color: #999;
+}
+
+/* =========================================
+   반응형 - 태블릿
 ========================================= */
 
 @media (max-width: 768px) {
@@ -337,4 +536,187 @@
     width: 65px;
     height: 65px;
   }
+
+  .applicants-section {
+    margin-top: 50px;
+  }
+}
+
+/* =========================================
+   반응형 - 모바일
+========================================= */
+
+@media (max-width: 600px) {
+  .detail-container {
+    padding: 25px 15px 60px;
+  }
+
+  .detail-content {
+    gap: 25px;
+  }
+
+  .detail-title {
+    font-size: 22px;
+  }
+
+  .applicants-section {
+    margin-top: 40px;
+  }
+
+  .applicants-title {
+    font-size: 18px;
+  }
+
+  .applicant-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  .applicant-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .applicant-status {
+    margin-right: 5px;
+  }
+
+  .accept-button,
+  .reject-button {
+    padding: 9px 16px;
+  }
+}
+/* =========================================
+   나눔 안내 메모
+========================================= */
+
+.sharing-memo-section {
+  margin-top: 30px;
+  padding: 22px;
+
+  background-color: #fff3e9;
+  border: 1px solid #ffe0c9;
+  border-radius: 12px;
+}
+
+.sharing-memo-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 12px;
+}
+
+.sharing-memo-title svg {
+  width: 20px;
+  height: 20px;
+  color: #ff7845;
+}
+
+.sharing-memo-title h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+.sharing-memo-content {
+  margin: 0;
+
+  font-size: 14px;
+  line-height: 1.8;
+  color: #555;
+
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+/* 나눔 안내 메모 */
+.sharing-memo-section {
+  margin-top: 30px;
+  padding: 22px;
+  background-color: #fff3e9;
+  border: 1px solid #ffe0c9;
+  border-radius: 12px;
+}
+
+.sharing-memo-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.sharing-memo-title svg {
+  width: 20px;
+  height: 20px;
+  color: #ff7845;
+}
+
+.sharing-memo-title h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+.sharing-memo-content {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #555;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+/* 수정·삭제 버튼 영역 */
+.item-manage-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.item-manage-buttons form {
+  flex: 1;
+}
+
+.item-edit-button,
+.item-delete-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.item-edit-button {
+  flex: 1;
+  background: #fff0e6;
+  color: #f4763d;
+  border: 1px solid #ffd4bc;
+}
+
+.item-delete-button {
+  background: #fff;
+  color: #e65c5c;
+  border: 1px solid #f1c5c5;
+}
+
+.item-edit-button:hover {
+  background: #ffe3d1;
+}
+
+.item-delete-button:hover {
+  background: #fff0f0;
+}
+
+.item-edit-button svg,
+.item-delete-button svg {
+  width: 18px;
+  height: 18px;
 }

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>나눔 수정 | 미림당근</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/add.css') }}"
+    />
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+
+  <body>
+    <main class="add-container">
+      <!-- 뒤로가기 -->
+      <div class="back-area">
+        <a
+          href="{{ url_for('item_detail', item_id=item.item_id) }}"
+          class="back-button"
+        >
+          <i data-lucide="arrow-left"></i>
+          <span>돌아가기</span>
+        </a>
+      </div>
+
+      <!-- 페이지 제목 -->
+      <div class="add-header">
+        <h1>
+          나눔 수정
+          <span class="title-deco">✦</span>
+        </h1>
+
+        <p>
+          등록한 물품의 정보를 수정할 수 있어요!<br />
+          변경할 내용을 입력해 주세요.
+        </p>
+      </div>
+
+      <!-- 수정 폼 -->
+      <form
+        action="{{ url_for('edit_item', item_id=item.item_id) }}"
+        method="POST"
+        enctype="multipart/form-data"
+        class="add-form"
+      >
+        <!-- 왼쪽 : 사진 영역 -->
+        <div class="image-section">
+          <label for="images" class="image-upload-box">
+            <i data-lucide="image" class="image-icon"></i>
+
+            <p>사진을 변경할 수 있어요.</p>
+            <span>(최대 5장)</span>
+
+            <div class="image-plus">
+              <i data-lucide="plus"></i>
+            </div>
+          </label>
+
+          <input
+            type="file"
+            id="images"
+            name="images"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+            hidden
+          />
+
+          <!-- 기존 사진 -->
+          <div class="image-preview-list" id="image-preview-list">
+            {% if images %} {% for image in images %}
+            <div class="preview-box">
+              <img
+                src="{{ url_for('static', filename=image.image_path) }}"
+                alt="등록된 사진"
+              />
+            </div>
+            {% endfor %} {% else %}
+
+            <div class="preview-box">
+              <i data-lucide="image"></i>
+            </div>
+
+            <div class="preview-box">
+              <i data-lucide="image"></i>
+            </div>
+
+            <div class="preview-box">
+              <i data-lucide="image"></i>
+            </div>
+
+            {% endif %}
+          </div>
+
+          <p class="image-guide">
+            새 사진을 선택하면 기존 사진이 모두 교체됩니다.<br />
+            변경하지 않으려면 사진을 선택하지 마세요.
+          </p>
+        </div>
+
+        <!-- 오른쪽 : 입력 영역 -->
+        <div class="form-section">
+          <!-- 제목 -->
+          <div class="form-group">
+            <label for="title"> 제목 <span class="required">*</span> </label>
+
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="예) 교재 나눔합니다!"
+              maxlength="100"
+              value="{{ item.title }}"
+              required
+            />
+          </div>
+
+          <!-- 카테고리 -->
+          <div class="form-group">
+            <label for="category_id">
+              카테고리 <span class="required">*</span>
+            </label>
+
+            <div class="select-wrapper">
+              <select id="category_id" name="category_id" required>
+                {% for category in categories %}
+                <option
+                  value="{{ category.category_id }}"
+                  {%
+                  if
+                  category.category_id=""
+                  ="item.category_id"
+                  %}
+                  selected
+                  {%
+                  endif
+                  %}
+                >
+                  {{ category.category_name }}
+                </option>
+                {% endfor %}
+              </select>
+
+              <i data-lucide="chevron-down"></i>
+            </div>
+          </div>
+
+          <!-- 설명 -->
+          <div class="form-group">
+            <label for="description">
+              설명 <span class="required">*</span>
+            </label>
+
+            <textarea
+              id="description"
+              name="description"
+              placeholder="물품의 상태, 특징 등을 적어주세요."
+              maxlength="500"
+              required
+            >
+{{ item.description }}</textarea
+            >
+
+            <div class="text-count">
+              <span id="current-count">0</span> / 500
+            </div>
+          </div>
+
+          <!-- 나눔 안내 메모 -->
+          <div class="form-group">
+            <label for="sharing_memo"> 나눔 안내 메모 </label>
+
+            <textarea
+              id="sharing_memo"
+              name="sharing_memo"
+              maxlength="255"
+              placeholder="예) 2학년 3반으로 찾아와 주세요!"
+            >
+{{ item.sharing_memo or '' }}</textarea
+            >
+
+            <p class="memo-help">
+              신청이 수락된 학생에게만 공개됩니다.<br />
+              물품을 전달받을 장소나 방법을 작성해 주세요.
+            </p>
+          </div>
+        </div>
+
+        <!-- 수정 버튼 -->
+        <div class="submit-area">
+          <button type="submit" class="submit-button">수정 완료</button>
+        </div>
+      </form>
+    </main>
+
+    <script>
+      lucide.createIcons();
+
+      // 설명 글자 수
+      const description = document.getElementById("description");
+      const currentCount = document.getElementById("current-count");
+
+      function updateCount() {
+        currentCount.textContent = description.value.length;
+      }
+
+      description.addEventListener("input", updateCount);
+      updateCount();
+
+      // 사진 미리보기
+      const images = document.getElementById("images");
+      const previewList = document.getElementById("image-preview-list");
+
+      images.addEventListener("change", function () {
+        const files = Array.from(images.files);
+
+        if (files.length > 5) {
+          alert("사진은 최대 5장까지 등록할 수 있습니다.");
+          images.value = "";
+          return;
+        }
+
+        for (const file of files) {
+          if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+            alert("JPG, PNG, WEBP 파일만 등록할 수 있습니다.");
+            images.value = "";
+            return;
+          }
+        }
+
+        previewList.innerHTML = "";
+
+        for (const file of files) {
+          const imageUrl = URL.createObjectURL(file);
+
+          const box = document.createElement("div");
+          box.className = "preview-box";
+
+          const img = document.createElement("img");
+          img.src = imageUrl;
+          img.alt = "선택한 사진";
+
+          img.onload = function () {
+            URL.revokeObjectURL(imageUrl);
+          };
+
+          box.appendChild(img);
+          previewList.appendChild(box);
+        }
+      });
+    </script>
+  </body>
+</html>

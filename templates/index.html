@@ -37,51 +37,7 @@
 
   <body>
     <div class="container">
-      <!-- HEADER -->
-      <header class="header">
-        <div class="header-inner">
-          <!-- 로고 -->
-          <a href="{{ url_for('home') }}" class="logo">
-            <img
-              src="{{ url_for('static', filename='images/logo.png') }}"
-              alt="미림당근"
-            />
-          </a>
-
-          <!-- 네비게이션 -->
-          <nav class="nav">
-            <a href="{{ url_for('home') }}"> 나눔 둘러보기 </a>
-
-            <a href="/mypage"> 나의 나눔 </a>
-
-            <a href="/notice"> 공지 사항 </a>
-          </nav>
-
-          <!-- 사용자 메뉴 -->
-          <div class="user-menu">
-            {% if session.get("user_id") %}
-
-            <div class="user-info">
-              <span class="user-nickname">
-                {{ session.get("nickname") }}님
-              </span>
-
-              <form action="{{ url_for('logout') }}" method="POST">
-                <button type="submit" class="logout-button">로그아웃</button>
-              </form>
-            </div>
-
-            {% else %}
-
-            <a href="{{ url_for('login') }}"> 로그인 </a>
-
-            <a href="{{ url_for('signup') }}"> 회원가입 </a>
-
-            {% endif %}
-          </div>
-        </div>
-      </header>
-
+      {% include 'header.html' %}
       <!-- MAIN -->
       <main class="main">
         <!-- 배너 -->

@@ -1,0 +1,464 @@
+/* ==================================
+   나의 나눔 페이지
+================================== */
+
+.mypage-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 65px 65px 100px;
+}
+
+/* 페이지 제목 */
+.mypage-heading {
+  margin-bottom: 45px;
+}
+
+.mypage-heading h1 {
+  margin-bottom: 12px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #222;
+}
+
+.mypage-heading p {
+  font-size: 14px;
+  color: #888;
+}
+
+/* ==================================
+   탭
+================================== */
+
+.mypage-tabs {
+  display: flex;
+  gap: 35px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.mypage-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 0 5px 18px;
+
+  border-bottom: 3px solid transparent;
+
+  font-size: 15px;
+  font-weight: 600;
+  color: #999;
+
+  transition: color 0.2s;
+}
+
+.mypage-tab:hover {
+  color: #ff7845;
+}
+
+.mypage-tab.active {
+  border-bottom-color: #ff7845;
+  color: #ff7845;
+}
+
+.mypage-tab span {
+  padding: 3px 8px;
+
+  background-color: #f5f5f5;
+  border-radius: 20px;
+
+  font-size: 12px;
+  color: #888;
+}
+
+.mypage-tab.active span {
+  background-color: #fff0e4;
+  color: #ff7845;
+}
+
+/* ==================================
+   목록 영역
+================================== */
+
+.mypage-section {
+  padding-top: 40px;
+}
+
+.mypage-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.mypage-section-heading h2 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.mypage-section-heading > span {
+  font-size: 13px;
+  color: #999;
+}
+
+/* ==================================
+   물품 카드
+================================== */
+
+.mypage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.mypage-card {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+
+  width: 100%;
+  min-width: 0;
+  padding: 20px;
+
+  background-color: #fff;
+  border: 1px solid #f0e5dc;
+  border-radius: 14px;
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.mypage-card:hover {
+  border-color: #ffc49a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+/* 물품 이미지 */
+.mypage-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 125px;
+  height: 125px;
+
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.mypage-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mypage-image svg {
+  width: 35px;
+  height: 35px;
+  color: #ccc;
+}
+
+/* 물품 정보 */
+.mypage-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mypage-category {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ff7845;
+}
+
+.mypage-item-info h3,
+.mypage-item-title {
+  display: block;
+  margin-bottom: 12px;
+
+  font-size: 17px;
+  font-weight: 700;
+  color: #222;
+}
+
+.mypage-item-title:hover {
+  color: #ff7845;
+}
+
+.mypage-date {
+  margin-bottom: 7px;
+  font-size: 12px;
+  color: #999;
+}
+
+/* ==================================
+   상태 표시
+================================== */
+
+.mypage-status-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.mypage-badge {
+  display: inline-block;
+  padding: 6px 12px;
+
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* 나눔중 */
+.mypage-badge.available {
+  background-color: #fff0e4;
+  color: #ff7845;
+}
+
+/* 나눔완료 */
+.mypage-badge.completed {
+  background-color: #f1f1f1;
+  color: #888;
+}
+
+/* 신청 대기 */
+.mypage-badge.waiting {
+  background-color: #fff0e4;
+  color: #ff7845;
+}
+
+/* 신청 수락 */
+.mypage-badge.accepted {
+  background-color: #e8f7ed;
+  color: #32965a;
+}
+
+/* 신청 거절 */
+.mypage-badge.rejected {
+  background-color: #f3f3f3;
+  color: #999;
+}
+
+.mypage-applicant-count {
+  font-size: 12px;
+  color: #888;
+}
+
+/* 오른쪽 화살표 */
+.mypage-card-arrow {
+  color: #aaa;
+}
+
+.mypage-card-arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ==================================
+   신청 취소 및 상세 보기
+================================== */
+
+.mypage-card-actions {
+  flex-shrink: 0;
+}
+
+.mypage-cancel-button,
+.mypage-view-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 11px 18px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+
+  background-color: #fff;
+  color: #666;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.mypage-cancel-button:hover {
+  border-color: #ff7845;
+  color: #ff7845;
+}
+
+.mypage-view-button:hover {
+  border-color: #ffc49a;
+  color: #ff7845;
+}
+
+/* ==================================
+   빈 목록
+================================== */
+
+.mypage-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 85px 20px;
+
+  background-color: #fff;
+  border: 1px solid #f0e5dc;
+  border-radius: 14px;
+}
+
+.mypage-empty svg {
+  width: 45px;
+  height: 45px;
+  margin-bottom: 20px;
+  color: #ffc49a;
+}
+
+.mypage-empty p {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #999;
+}
+
+.mypage-empty a {
+  padding: 12px 20px;
+
+  background-color: #ff7845;
+  border-radius: 8px;
+
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.mypage-empty a:hover {
+  background-color: #eb6734;
+}
+
+/* ==================================
+   반응형
+================================== */
+
+@media (max-width: 768px) {
+  .mypage-container {
+    padding: 40px 25px 80px;
+  }
+
+  .mypage-heading h1 {
+    font-size: 25px;
+  }
+
+  .mypage-card {
+    gap: 18px;
+  }
+
+  .mypage-image {
+    width: 105px;
+    height: 105px;
+  }
+}
+
+@media (max-width: 600px) {
+  .mypage-container {
+    padding: 35px 15px 70px;
+  }
+
+  .mypage-tabs {
+    gap: 20px;
+  }
+
+  .mypage-tab {
+    font-size: 13px;
+  }
+
+  .mypage-card {
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .mypage-image {
+    width: 95px;
+    height: 95px;
+  }
+
+  .mypage-item-info h3,
+  .mypage-item-title {
+    font-size: 15px;
+  }
+
+  .mypage-card-actions {
+    width: 100%;
+  }
+
+  .mypage-card-actions form,
+  .mypage-cancel-button {
+    width: 100%;
+  }
+}
+/* 마이페이지 상품 관리 버튼 */
+.mypage-manage-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.mypage-manage-buttons form {
+  flex: 1;
+}
+
+.mypage-edit-button,
+.mypage-delete-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 11px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.mypage-edit-button {
+  flex: 1;
+  background: #fff0e6;
+  color: #f4763d;
+  border: 1px solid #ffd4bc;
+}
+
+.mypage-delete-button {
+  background: #fff;
+  color: #e65c5c;
+  border: 1px solid #f1c5c5;
+}
+
+.mypage-edit-button:hover {
+  background: #ffe3d1;
+}
+
+.mypage-delete-button:hover {
+  background: #fff0f0;
+}
+/* 수정·삭제 버튼 크기 조절 */
+.mypage-manage-buttons {
+  max-width: 250px;
+}
+
+.mypage-manage-buttons form {
+  min-width: 0;
+}
+
+.mypage-edit-button,
+.mypage-delete-button {
+  box-sizing: border-box;
+  white-space: nowrap;
+}

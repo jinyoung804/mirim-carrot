@@ -151,6 +151,25 @@
               <span id="current-count">0</span> / 500
             </div>
           </div>
+
+          <!-- 나눔 안내 메모 -->
+          <div class="form-group">
+            <label for="sharing_memo"> 나눔 안내 메모 </label>
+
+            <textarea
+              id="sharing_memo"
+              name="sharing_memo"
+              maxlength="255"
+              placeholder="예) 2학년 3반 김진영에게 찾아와 주세요!"
+            >
+{{ form_data.sharing_memo if form_data else '' }}</textarea
+            >
+
+            <p class="memo-help">
+              신청이 수락된 학생에게만 공개됩니다.<br />
+              물품을 전달받을 장소나 방법을 작성해 주세요.
+            </p>
+          </div>
         </div>
         <!-- form-section 끝 -->
 
@@ -247,10 +266,16 @@
         // 사진이 없을 때 기본 아이콘 표시
         if (selectedImages.length === 0) {
           previewList.innerHTML = `
-        <div class="preview-box"><i data-lucide="image"></i></div>
-        <div class="preview-box"><i data-lucide="image"></i></div>
-        <div class="preview-box"><i data-lucide="image"></i></div>
-      `;
+            <div class="preview-box">
+              <i data-lucide="image"></i>
+            </div>
+            <div class="preview-box">
+              <i data-lucide="image"></i>
+            </div>
+            <div class="preview-box">
+              <i data-lucide="image"></i>
+            </div>
+          `;
 
           lucide.createIcons();
         }

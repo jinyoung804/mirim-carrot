@@ -6,13 +6,13 @@
 
     <title>{{ item.title }} | 미림당근</title>
 
-    <!-- 기존 메인 페이지 CSS -->
+    <!-- 공통 CSS -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
     />
 
-    <!-- 상세 페이지 전용 CSS -->
+    <!-- 상세 페이지 CSS -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/detail.css') }}"
@@ -22,170 +22,275 @@
   </head>
 
   <body>
-    <div class="container">
-      <!-- 기존 메인 페이지와 동일한 헤더 -->
-      {% include 'header.html' %}
+    <main class="detail-container">
+      <!-- 뒤로가기 -->
+      <div class="back-area">
+        <a href="{{ url_for('home') }}" class="back-button">
+          <i data-lucide="arrow-left"></i>
+          <span>돌아가기</span>
+        </a>
+      </div>
 
-      <!-- MAIN -->
-      <main class="detail-container">
-        <!-- 뒤로가기 -->
-        <div class="back-area">
-          <a href="{{ url_for('home') }}" class="back-button">
-            <i data-lucide="arrow-left"></i>
-            <span>목록으로 돌아가기</span>
-          </a>
-        </div>
-
-        <!-- 물품 상세 영역 -->
-        <div class="detail-content">
-          <!-- 왼쪽 : 사진 영역 -->
-          <div class="detail-image-section">
-            <!-- 대표 사진 -->
-            <div class="main-image">
-              {% if images %}
-
-              <img
-                id="main-product-image"
-                src="{{ url_for('static', filename=images[0].image_path) }}"
-                alt="{{ item.title }}"
-              />
-
-              {% else %}
-
-              <i data-lucide="image"></i>
-
-              {% endif %}
-            </div>
-
-            <!-- 추가 사진 -->
+      <!-- 상품 상세 영역 -->
+      <div class="detail-content">
+        <!-- 왼쪽 : 상품 사진 -->
+        <div class="detail-image-section">
+          <div class="main-image">
             {% if images %}
-
-            <div class="thumbnail-list">
-              {% for image in images %}
-
-              <button
-                type="button"
-                class="thumbnail {% if loop.first %}active{% endif %}"
-                onclick="changeImage(this)"
-              >
-                <img
-                  src="{{ url_for('static', filename=image.image_path) }}"
-                  alt="물품 사진 {{ loop.index }}"
-                />
-              </button>
-
-              {% endfor %}
-            </div>
-
+            <img
+              id="main-image"
+              src="{{ url_for('static', filename=images[0].image_path) }}"
+              alt="{{ item.title }}"
+            />
+            {% else %}
+            <i data-lucide="image"></i>
             {% endif %}
           </div>
 
-          <!-- 오른쪽 : 물품 정보 -->
-          <div class="detail-info-section">
-            <!-- 카테고리 -->
-            <p class="detail-category">{{ item.category_name }}</p>
+          <!-- 썸네일 -->
+          {% if images %}
+          <div class="thumbnail-list">
+            {% for image in images %}
+            <button
+              type="button"
+              class="thumbnail {% if loop.first %}active{% endif %}"
+              onclick="changeImage(this)"
+            >
+              <img
+                src="{{ url_for('static', filename=image.image_path) }}"
+                alt="상품 사진 {{ loop.index }}"
+              />
+            </button>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
 
-            <!-- 제목 -->
-            <h1 class="detail-title">{{ item.title }}</h1>
+        <!-- 오른쪽 : 상품 정보 -->
+        <div class="detail-info-section">
+          <!-- 카테고리 -->
+          <p class="detail-category">{{ item.category_name }}</p>
 
-            <!-- 등록자 -->
-            <div class="seller-info">
-              <div class="seller-icon">
+          <!-- 상품 제목 -->
+          <h1 class="detail-title">{{ item.title }}</h1>
+
+          <!-- 등록자 정보 -->
+          <div class="seller-info">
+            <div class="seller-icon">
+              <i data-lucide="user-round"></i>
+            </div>
+
+            <div>
+              <p class="seller-label">나눔 등록자</p>
+              <p class="seller-name">{{ item.nickname }}</p>
+            </div>
+          </div>
+
+          <!-- 등록 날짜 -->
+          <div class="detail-date">
+            <i data-lucide="calendar-days"></i>
+            <span> {{ item.created_at.strftime('%Y.%m.%d') }} </span>
+          </div>
+
+          <!-- 나눔 상태 -->
+          <div class="detail-status-area">
+            <span
+              class="detail-status {% if item.status == '나눔중' %}available{% else %}completed{% endif %}"
+            >
+              {{ item.status }}
+            </span>
+          </div>
+
+          <hr class="detail-divider" />
+
+          <!-- 상품 설명 -->
+          <div class="description-section">
+            <h2>상품 설명</h2>
+
+            <p class="detail-description">{{ item.description }}</p>
+          </div>
+
+          <!-- 나눔 안내 메모 -->
+          {% if item.sharing_memo %} {% if session.get('user_id') ==
+          item.user_id or application_status == '수락' %}
+
+          <div class="sharing-memo-section">
+            <div class="sharing-memo-title">
+              <i data-lucide="map-pin"></i>
+              <h2>나눔 안내</h2>
+            </div>
+
+            <p class="sharing-memo-content">{{ item.sharing_memo }}</p>
+          </div>
+
+          {% endif %} {% endif %}
+
+          <!-- 알림 메시지 -->
+          {% with messages = get_flashed_messages() %} {% if messages %}
+          <div class="flash-message">
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+          </div>
+          {% endif %} {% endwith %}
+
+          <!-- 버튼 영역 -->
+          <div class="detail-button-area">
+            <!-- 내가 등록한 상품 -->
+            {% if session.get('user_id') == item.user_id %} {% if item.status ==
+            '나눔중' %}
+
+            <div class="item-manage-buttons">
+              <!-- 수정 -->
+              <a
+                href="{{ url_for('edit_item', item_id=item.item_id) }}"
+                class="item-edit-button"
+              >
+                <i data-lucide="pencil"></i>
+                수정하기
+              </a>
+
+              <!-- 삭제 -->
+              <form
+                action="{{ url_for('delete_item', item_id=item.item_id) }}"
+                method="POST"
+                onsubmit="return confirm('정말 이 상품을 삭제하시겠습니까?');"
+              >
+                <button type="submit" class="item-delete-button">
+                  <i data-lucide="trash-2"></i>
+                  삭제하기
+                </button>
+              </form>
+            </div>
+
+            {% else %}
+
+            <button class="apply-button disabled" disabled>나눔 완료</button>
+
+            {% endif %}
+
+            <!-- 다른 사람이 등록한 상품 -->
+            {% else %} {% if item.status == '나눔완료' %}
+
+            <button class="apply-button disabled" disabled>나눔 완료</button>
+
+            {% elif not session.get('user_id') %}
+
+            <a href="{{ url_for('login') }}" class="apply-button">
+              로그인 후 신청하기
+            </a>
+
+            {% elif application_status == '대기' %}
+
+            <button class="apply-button disabled" disabled>신청 대기 중</button>
+
+            {% elif application_status == '수락' %}
+
+            <button class="apply-button disabled" disabled>
+              신청 수락 완료
+            </button>
+
+            {% elif application_status == '거절' %}
+
+            <button class="apply-button disabled" disabled>
+              신청이 거절되었습니다
+            </button>
+
+            {% else %}
+
+            <form
+              action="{{ url_for('apply', item_id=item.item_id) }}"
+              method="POST"
+            >
+              <button type="submit" class="apply-button">나눔 신청하기</button>
+            </form>
+
+            {% endif %} {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- 신청자 목록 : 등록자에게만 표시 -->
+      {% if session.get('user_id') == item.user_id %}
+
+      <section class="applicants-section">
+        <h2 class="applicants-title">나눔 신청자</h2>
+
+        {% if applicants %}
+
+        <div class="applicants-list">
+          {% for applicant in applicants %}
+
+          <div class="applicant-card">
+            <!-- 신청자 정보 -->
+            <div class="applicant-info">
+              <div class="applicant-icon">
                 <i data-lucide="user-round"></i>
               </div>
 
               <div>
-                <p class="seller-label">나눔 등록자</p>
-                <p class="seller-name">{{ item.nickname }}</p>
+                <p class="applicant-name">{{ applicant.nickname }}</p>
+
+                <p class="applicant-date">
+                  신청일 {{ applicant.created_at.strftime('%Y.%m.%d') }}
+                </p>
               </div>
             </div>
 
-            <!-- 등록 날짜 -->
-            <div class="detail-date">
-              <i data-lucide="calendar-days"></i>
+            <!-- 신청 상태 및 버튼 -->
+            <div class="applicant-actions">
+              <span class="applicant-status"> {{ applicant.status }} </span>
 
-              <span> 등록일 : {{ item.created_at.strftime('%Y.%m.%d') }} </span>
-            </div>
+              {% if applicant.status == '대기' and item.status == '나눔중' %}
 
-            <!-- 나눔 상태 -->
-            <div class="detail-status-area">
-              {% if item.status == "나눔중" %}
+              <!-- 수락 -->
+              <form
+                action="{{ url_for('accept_application', application_id=applicant.application_id) }}"
+                method="POST"
+                onsubmit="return confirm('이 학생의 신청을 수락하시겠습니까?');"
+              >
+                <button type="submit" class="accept-button">수락</button>
+              </form>
 
-              <span class="detail-status available"> 나눔중 </span>
-
-              {% else %}
-
-              <span class="detail-status completed"> 나눔완료 </span>
-
-              {% endif %}
-            </div>
-
-            <!-- 구분선 -->
-            <hr class="detail-divider" />
-
-            <!-- 물품 설명 -->
-            <div class="description-section">
-              <h2>물품 설명</h2>
-
-              <p class="detail-description">{{ item.description }}</p>
-            </div>
-
-            <!-- 신청 버튼 -->
-            <div class="detail-button-area">
-              {% if session.get("user_id") == item.user_id %}
-
-              <!-- 내가 등록한 물품 -->
-              <button class="apply-button disabled" disabled>
-                내가 등록한 물품입니다
-              </button>
-
-              {% elif item.status == "나눔완료" %}
-
-              <!-- 나눔 완료 -->
-              <button class="apply-button disabled" disabled>
-                나눔이 완료된 물품입니다
-              </button>
-
-              {% elif not session.get("user_id") %}
-
-              <!-- 로그인하지 않은 경우 -->
-              <a href="{{ url_for('login') }}" class="apply-button">
-                로그인 후 나눔 신청하기
-              </a>
-
-              {% else %}
-
-              <!-- 나눔 신청 -->
-              <button class="apply-button" disabled>
-                나눔 신청하기 (준비 중)
-              </button>
+              <!-- 거절 -->
+              <form
+                action="{{ url_for('reject_application', application_id=applicant.application_id) }}"
+                method="POST"
+              >
+                <button type="submit" class="reject-button">거절</button>
+              </form>
 
               {% endif %}
             </div>
           </div>
+
+          {% endfor %}
         </div>
-      </main>
-    </div>
+
+        {% else %}
+
+        <div class="no-applicants">아직 나눔 신청자가 없습니다.</div>
+
+        {% endif %}
+      </section>
+
+      {% endif %}
+    </main>
 
     <script>
-      // 아이콘 생성
       lucide.createIcons();
 
-      // 작은 사진을 클릭하면 대표 사진 변경
+      // 썸네일 클릭 시 대표 사진 변경
       function changeImage(button) {
-        const image = button.querySelector("img");
-        const mainImage = document.getElementById("main-product-image");
+        const mainImage = document.getElementById("main-image");
+        const selectedImage = button.querySelector("img");
 
-        mainImage.src = image.src;
+        mainImage.src = selectedImage.src;
 
-        // 기존 선택 표시 제거
-        const thumbnails = document.querySelectorAll(".thumbnail");
+        document.querySelectorAll(".thumbnail").forEach(function (thumbnail) {
+          thumbnail.classList.remove("active");
+        });
 
-        for (let i = 0; i < thumbnails.length; i++) {
-          thumbnails[i].classList.remove("active");
-        }
-
-        // 선택한 사진 표시
         button.classList.add("active");
       }
     </script>

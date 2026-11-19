@@ -203,48 +203,113 @@ button {
   margin-top: 75px;
 }
 
+/* 카테고리 전체 배치 */
 .category-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+
   width: 100%;
+  padding: 0;
 
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-
-  padding: 18px 10px;
-  border-radius: 15px;
-  background-color: #ffc49a;
-  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.12);
+  background: transparent;
+  box-shadow: none;
 }
 
-/* 카테고리 기본 색상 */
+/* 개별 카테고리 버튼 */
 .category-item {
-  color: #222;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  min-height: 48px;
+  padding: 12px 22px;
+
+  background-color: #ffffff;
+  border: 1px solid #f0e1d5;
+  border-radius: 30px;
+
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+
   transition:
+    background-color 0.2s,
+    border-color 0.2s,
     color 0.2s,
     transform 0.2s;
+
+  cursor: pointer;
+}
+
+/* 아이콘 */
+.category-item svg {
+  width: 19px;
+  height: 19px;
+  stroke-width: 1.8;
 }
 
 /* 마우스를 올렸을 때 */
 .category-item:hover {
-  color: black;
-  transform: translateY(-4px);
+  background-color: #fff3e9;
+  border-color: #ffc49a;
+  color: #ff7845;
+  transform: translateY(-2px);
 }
 
 /* 선택된 카테고리 */
 .category-item.active {
-  color: #ff7845;
-}
-
-/* 선택된 아이콘 */
-.category-item.active svg {
-  stroke: #ff7845;
-}
-
-/* 선택된 글씨 */
-.category-item.active span {
-  color: #ff7845;
+  background-color: #ffc49a;
+  border-color: #ffc49a;
+  color: #222;
   font-weight: 700;
 }
 
+/* 선택된 카테고리 아이콘 */
+.category-item.active svg {
+  stroke: #222;
+}
+
+/* 선택된 카테고리 글씨 */
+.category-item.active span {
+  color: #222;
+  font-weight: 700;
+}
+
+/* 키보드로 선택할 때 */
+.category-item:focus-visible {
+  outline: 2px solid #ff7845;
+  outline-offset: 3px;
+}
+
+/* 모바일 */
+@media (max-width: 600px) {
+  .category-section {
+    margin-top: 40px;
+  }
+
+  .category-list {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .category-item {
+    padding: 10px 15px;
+    min-height: 44px;
+    font-size: 12px;
+  }
+
+  .category-item svg {
+    width: 17px;
+    height: 17px;
+  }
+}
 /* ==================================
    7. PRODUCT
 ================================== */
@@ -447,11 +512,6 @@ button {
 
   .category-section {
     margin-top: 40px;
-  }
-
-  .category-list {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px 10px;
   }
 
   .category-item svg {

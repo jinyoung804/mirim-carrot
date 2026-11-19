@@ -12,8 +12,8 @@
     <!-- 네비게이션 -->
     <nav class="nav">
       <a href="{{ url_for('home') }}">나눔 둘러보기</a>
-      <a href="/mypage">나의 나눔</a>
-      <a href="/notice">공지 사항</a>
+      <a href="{{ url_for('mypage') }}">나의 나눔</a>
+      <a href="{{ url_for('notice') }}">공지사항</a>
     </nav>
 
     <!-- 사용자 메뉴 -->
