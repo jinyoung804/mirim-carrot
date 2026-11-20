@@ -102,7 +102,9 @@ def login():
         return render_template('login.html')
     user = read('SELECT * FROM users WHERE email=%s',
                 (request.form.get('email', '').strip().lower(),), one=True)
-    if user and check_password_hash(user['password_hash'], request.form.get('password', '')):
+    if user and user['password_hash'] and check_password_hash(
+    user['password_hash'], request.form.get('password', '')
+):
         session.clear()
         session['user_id'], session['nickname'] = user['user_id'], user['nickname']
         return redirect(url_for('home'))
